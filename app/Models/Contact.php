@@ -27,8 +27,17 @@ class Contact extends Model
         'status',                
     ];
 
+    function getFullNameAttribute() : string {
+        return !empty($this->name) ? $this->name : $this->first_name . ' ' . $this->last_name;
+    }
+
     public function metas()
     {
         return $this->hasMany(ContactMeta::class);
-    }    
+    }  
+    
+    public function campaignMails()
+    {
+        return $this->hasMany(CampaignMail::class);
+    }
 }

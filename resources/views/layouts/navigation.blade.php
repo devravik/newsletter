@@ -18,6 +18,12 @@
                     <x-nav-link :href="route('contacts.index')" :active="request()->routeIs('contacts')">
                         {{ __('Contacts') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('campaigns.index')" :active="request()->routeIs('campaigns')">
+                        {{ __('Campaigns') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('campaign_mails.index')" :active="request()->routeIs('campaign_mails')">
+                        {{ __('Campaign Mails') }}
+                    </x-nav-link>
                 </div>
             </div>
 
