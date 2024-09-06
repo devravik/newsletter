@@ -3,6 +3,10 @@
 
 @if ($pagination->hasPages())
 <nav aria-label="Page navigation" class="flex justify-start text-xs">
+    <!-- Total Count Display -->
+    <div class="text-sm text-gray-600 dark:text-gray-400 py-2 px-2">
+        Total: {{ $pagination->total() }}
+    </div>
     <ul class="inline-flex items-center space-x-2">
         {{-- Previous Page Link --}}
         @if ($pagination->onFirstPage())

@@ -9,7 +9,7 @@
 
     <div class="py-12">
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg text-xs">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 py-4">
+            <div class="mx-auto sm:px-6 lg:px-8 space-y-6 py-4">
 
                 {{-- Search and Filter Form --}}
                 <form method="GET" action="{{ route('campaigns.index') }}" class="mb-4">

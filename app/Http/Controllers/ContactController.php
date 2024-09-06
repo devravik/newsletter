@@ -10,7 +10,7 @@ class ContactController extends Controller
     public function index(Request $request)
     {
         $contacts = Contact::orderBy('email', 'asc');
-        if($request->has('search')){
+        if($request->search){
             $contacts->where('email', 'like', '%'.$request->search.'%')
                     ->orWhere('name', 'like', '%'.$request->search.'%')
                     ->orWhere('phone', 'like', '%'.$request->search.'%')
@@ -29,13 +29,13 @@ class ContactController extends Controller
                         $query->where('value', 'like', '%'.$request->search.'%');
                     });
         }
-        if($request->has('sort')){
+        if($request->sort){
             $contacts->orderBy($request->sort, $request->order);
         }
-        if($request->has('status')){
+        if($request->status){
             $contacts->where('status', $request->status);
         }
-        if($request->has('source')){
+        if($request->source){
             $contacts->where('source', $request->source);
         }
         $per_page = $request->per_page ?? 25;

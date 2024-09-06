@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg text-xs">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 py-4">
+            <div class="mx-auto sm:px-6 lg:px-8 space-y-6 py-4">
 
                 {{-- Search and Filter Form --}}
                 <form method="GET" action="{{ route('contacts.index') }}" class="mb-4">
@@ -63,7 +63,7 @@
                     </thead>
                     <tbody>
                         @foreach ($contacts as $contact)
-                        <tr class="text-left">
+                        <tr class="text-left border-collapse border border-slate-300">
                             <td>{{ $contact->name ?? $contact->first_name.' '.$contact->last_name  }}</td>
                             <td>{{ $contact->email }}</td>
                             <td>{{ $contact->phone }}</td>
@@ -78,9 +78,9 @@
                             <td>{{ $contact->notes }}</td>
                             <td>{{ $contact->status }}</td>
                             <!-- Add metas values -->
-                            <td>
+                            <td width="100">
                                 @foreach ($contact->metas as $meta)
-                                <span class="text-xs bg-gray-200 dark:bg-gray-700 dark:text-gray-400 rounded-lg px-2 py-1 mr-1">{{ $meta->key }}: {{ $meta->value }}</span>
+                                <span class="text-xs bg-gray-200 dark:bg-gray-700 dark:text-gray-400 rounded-lg px-2 py-1 mr-1 block">{{ $meta->key }}: {{ $meta->value }}</span>
                                 @endforeach
                             </td>
                             <td class="px-4 py-2">
@@ -109,7 +109,7 @@
     <script>
         document.getElementById('clear-filters').addEventListener('click', function() {
             const form = this.closest('form');
-            
+
             form.querySelectorAll('input').forEach(input => input.value = ''); // To clear all input values
 
             form.submit(); // To trigger a form submission with cleared values
