@@ -60,7 +60,7 @@ class TestEmailCommand extends Command
             ],
         ]);       
         
-        Artisan::call('app:process-campaign-command');
+        // Artisan::call('app:process-campaign-command');
 
         $contact = Contact::where('email', 'rk822827@gmail.com')->first();
 
