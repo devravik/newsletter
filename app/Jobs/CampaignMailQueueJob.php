@@ -54,6 +54,7 @@ class CampaignMailQueueJob implements ShouldQueue
 
         // Update sent_at timestamp
         $campaignMail->sent_at = now();
+        $campaignMail->status = 'sent';
         $campaignMail->save();
 
         // Update campaign status
