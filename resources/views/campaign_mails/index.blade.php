@@ -42,6 +42,7 @@
                             <th>From Email</th>
                             <th>Template</th>
                             <th>Reply To</th>
+                            <th>Scheduled At</th>
                             <th>Sent At</th>
                             <th>Opened At</th>
                             <th>Unsubscribed At</th>
@@ -58,6 +59,7 @@
                             <td>{{ $mail->from_email }}</td>
                             <td>{{ $mail->template }}</td>
                             <td>{{ $mail->reply_to }}</td>
+                            <td>{{ $mail->scheduled_at }}</td>
                             <td>{{ $mail->sent_at }}</td>
                             <td>{{ $mail->opened_at }}</td>
                             <td>{{ $mail->unsubscribed_at }}</td>
