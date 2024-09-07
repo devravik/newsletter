@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Cache;
 
 class AddMailCampaignToQueueJob implements ShouldQueue
 {
@@ -60,28 +61,25 @@ class AddMailCampaignToQueueJob implements ShouldQueue
 
     function getNextScheduledDate()
     {
-        // Maximum number of emails that can be sent per day
         $limitPerDay = env('EMAILS_PER_DAY', 30);
 
-        // Get the latest scheduled email
-        $lastCampaignMail = CampaignMail::latest()->first();
+        // Check if we already have the last scheduled date in cache
+        $lastScheduledAt = Cache::get('last_scheduled_at');
 
-        // If no previous email exists, schedule immediately
-        if (!$lastCampaignMail) {
-            return now();
+        if (!$lastScheduledAt) {
+            $lastCampaignMail = CampaignMail::latest()->first();
+            $lastScheduledAt = $lastCampaignMail->scheduled_at ?? now();
+
+            // Cache the last scheduled at for a few seconds to avoid multiple queries
+            Cache::put('last_scheduled_at', $lastScheduledAt, 60);
         }
 
-        // The last scheduled date/time
-        $lastScheduledAt = $lastCampaignMail->scheduled_at ?? now();
+        // Calculate next scheduled time
+        $nextScheduledAt = Carbon::parse($lastScheduledAt)->addMinutes(24 * 60 / $limitPerDay);
 
-        // Calculate the interval between emails (in minutes)
-        // 24 hours * 60 minutes divided by the limit (emails per day)
-        $intervalInMinutes = (24 * 60) / $limitPerDay;
+        // Update cache with the new scheduled time
+        Cache::put('last_scheduled_at', $nextScheduledAt, 60);
 
-        // Calculate the next scheduled time by adding the interval
-        $nextScheduledAt = Carbon::parse($lastScheduledAt)->addMinutes($intervalInMinutes);
-
-        // Return the calculated next scheduled time
         return $nextScheduledAt;
     }
 
