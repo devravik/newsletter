@@ -34,7 +34,7 @@ class TestEmailCommand extends Command
 
         $template = $this->argument('template');
 
-        $fromName = 'HappyDesk';
+        $fromName = 'Happendesk';
         $fromEmail = 'noreply@happendesk.com';
         $replyTo = 'noreply@happendesk.com';
 
@@ -53,7 +53,7 @@ class TestEmailCommand extends Command
             'from_email' => $fromEmail,
             'reply_to' => $replyTo,
             'template' => $template,
-            'status' => 'draft',
+            'status' => 'sent',
             'sent_at' => now(),
             'contact_filters' => [
                 'email' => 'rk822827@gmail.com'
