@@ -29,7 +29,7 @@ class ProcessMailCommand extends Command
     public function handle()
     {
         // Get all campaign mails that are not yet sent
-        $campaignMails = CampaignMail::where('sent_at', null)->get();
+        $campaignMails = CampaignMail::whereNull('sent_at')->where('scheduled_at','<',now())->get();
 
         foreach ($campaignMails as $campaignMail) {
 
