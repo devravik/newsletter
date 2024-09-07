@@ -32,7 +32,7 @@
                 </form>
 
                 {{-- Contacts Table --}}
-                <table class="table-fixed text-white w-full border-collapse border border-slate-500">
+                <table class="table-fixed text-black dark:text-white  w-full border-collapse border border-slate-500">
                     <thead>
                         <tr class="text-left border-collapse border border-slate-300">
                             <th>Email</th>
@@ -46,7 +46,7 @@
                             <th>Sent At</th>
                             <th>Opened At</th>
                             <th>Unsubscribed At</th>
-                            <th>Is Bounced</th>                            
+                            <th>Is Bounced</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -43,7 +43,7 @@
                 </form>
 
                 {{-- Campaigns Table --}}
-                <table class="table-fixed text-white w-full border-collapse border border-slate-500">
+                <table class="table-fixed text-black dark:text-white  w-full border-collapse border border-slate-500">
                     <thead>
                         <tr class="text-left border-collapse border border-slate-300">
                             <th>Name</th>
