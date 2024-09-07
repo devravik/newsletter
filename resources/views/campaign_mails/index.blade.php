@@ -10,7 +10,7 @@
             <div class="mx-auto sm:px-6 lg:px-8 space-y-6 py-4">
 
                 {{-- Search and Filter Form --}}
-                <form method="GET" action="{{ route('contacts.index') }}" class="mb-4">
+                <form method="GET" action="{{ route('campaign_mails.index') }}" class="mb-4">
                     <div class="flex space-x-4 items-center">
                         {{-- Search Input --}}
                         <div class="w-1/2">
@@ -22,15 +22,6 @@
                                 class="w-full px-2 py-1 bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-md" />
                         </div>
 
-                        {{-- Source Filter --}}
-                        <div class="w-1/4">
-                            <input
-                                type="text"
-                                name="source"
-                                placeholder="Source"
-                                value="{{ request('source') }}"
-                                class="w-full px-2 py-1 bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-md" />
-                        </div>
 
                         {{-- Submit Button --}}
                         <div class="flex items-end">
@@ -44,72 +35,47 @@
                 <table class="table-fixed text-white w-full border-collapse border border-slate-500">
                     <thead>
                         <tr class="text-left border-collapse border border-slate-300">
-                            <th>Name</th>
                             <th>Email</th>
-                            <th>Phone</th>
-                            <th>Source</th>
-                            <th>Country</th>
-                            <th>City</th>
-                            <th>Job Title</th>
-                            <th>Company</th>
-                            <th>Address</th>
-                            <th>Postal Code</th>
-                            <th>Website</th>
-                            <th>Notes</th>
                             <th>Status</th>
-                            <th>Metas</th>
-                            <th>Actions</th>
+                            <th>Subject</th>
+                            <th>From Name</th>
+                            <th>From Email</th>
+                            <th>Template</th>
+                            <th>Reply To</th>
+                            <th>Sent At</th>
+                            <th>Opened At</th>
+                            <th>Unsubscribed At</th>
+                            <th>Is Bounced</th>                            
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($contacts as $contact)
+                        @foreach ($mails as $mail)
                         <tr class="text-left">
-                            <td>{{ $contact->name ?? $contact->first_name.' '.$contact->last_name  }}</td>
-                            <td>{{ $contact->email }}</td>
-                            <td>{{ $contact->phone }}</td>
-                            <td>{{ $contact->source }}</td>
-                            <td>{{ $contact->country }}</td>
-                            <td>{{ $contact->city }}</td>
-                            <td>{{ $contact->job_title }}</td>
-                            <td>{{ $contact->company }}</td>
-                            <td>{{ $contact->address }}</td>
-                            <td>{{ $contact->postal_code }}</td>
-                            <td>{{ $contact->website }}</td>
-                            <td>{{ $contact->notes }}</td>
-                            <td>{{ $contact->status }}</td>
-                            <!-- Add metas values -->
-                            <td>
-                                @foreach ($contact->metas as $meta)
-                                <span class="text-xs bg-gray-200 dark:bg-gray-700 dark:text-gray-400 rounded-lg px-2 py-1 mr-1">{{ $meta->key }}: {{ $meta->value }}</span>
-                                @endforeach
-                            </td>
-                            <td class="px-4 py-2">
-                                <div class="flex space-x-2">
-                                    {{-- Edit Button --}}
-                                    <a href="{{ route('contacts.edit', $contact->id) }}" class="px-2 py-1 bg-green-500 text-white rounded">Edit</a>
-
-                                    {{-- Delete Form --}}
-                                    <form action="{{ route('contacts.destroy', $contact->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this contact?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="px-2 py-1 bg-red-500 text-white rounded">Delete</button>
-                                    </form>
-                                </div>
-                            </td>
+                            <td>{{ $mail->email }}</td>
+                            <td>{{ ucwords($mail->status) }}</td>
+                            <td>{{ $mail->subject }}</td>
+                            <td>{{ $mail->from_name }}</td>
+                            <td>{{ $mail->from_email }}</td>
+                            <td>{{ $mail->template }}</td>
+                            <td>{{ $mail->reply_to }}</td>
+                            <td>{{ $mail->sent_at }}</td>
+                            <td>{{ $mail->opened_at }}</td>
+                            <td>{{ $mail->unsubscribed_at }}</td>
+                            <td>{{ $mail->is_bounced ? 'Yes' : 'No' }}</td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
 
                 {{-- Pagination --}}
-                <x-pagination :pagination="$contacts" />
+                <x-pagination :pagination="$mails" />
             </div>
         </div>
     </div>
     <script>
         document.getElementById('clear-filters').addEventListener('click', function() {
             const form = this.closest('form');
-            
+
             form.querySelectorAll('input').forEach(input => input.value = ''); // To clear all input values
 
             form.submit(); // To trigger a form submission with cleared values

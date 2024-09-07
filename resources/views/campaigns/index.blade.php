@@ -76,29 +76,39 @@
                             <td>{{ $campaign->template }}</td>
                             <td>{{ $campaign->content }}</td>
                             <td>
+                                @if ($campaign->contact_filters)
                                 @foreach ($campaign->contact_filters as $key => $value)
                                 <div>{{ $key }}: {{ $value }}</div>
                                 @endforeach
+                                @endif
                             </td>
                             <td>
+                                @if ($campaign->meta)
                                 @foreach ($campaign->meta as $key => $value)
                                 <div>{{ $key }}: {{ $value }}</div>
                                 @endforeach
+                                @endif
                             </td>
                             <td>
+                                @if ($campaign->options)
                                 @foreach ($campaign->options as $key => $value)
                                 <div>{{ $key }}: {{ $value }}</div>
                                 @endforeach
+                                @endif
                             </td>
                             <td>
+                                @if ($campaign->settings)
                                 @foreach ($campaign->settings as $key => $value)
                                 <div>{{ $key }}: {{ $value }}</div>
                                 @endforeach
+                                @endif
                             </td>
                             <td>
+                                @if ($campaign->report)
                                 @foreach ($campaign->report as $key => $value)
                                 <div>{{ $key }}: {{ $value }}</div>
                                 @endforeach
+                                @endif
                             </td>
                             <td>
                                 <a href="{{ route('campaigns.show', $campaign) }}" class="text-blue-500 hover:text-blue-600 block">View</a>

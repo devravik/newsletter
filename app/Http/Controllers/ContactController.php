@@ -11,23 +11,10 @@ class ContactController extends Controller
     {
         $contacts = Contact::orderBy('email', 'asc');
         if($request->search){
-            $contacts->where('email', 'like', '%'.$request->search.'%')
-                    ->orWhere('name', 'like', '%'.$request->search.'%')
-                    ->orWhere('phone', 'like', '%'.$request->search.'%')
-                    ->orWhere('company', 'like', '%'.$request->search.'%')
-                    ->orWhere('job_title', 'like', '%'.$request->search.'%')
-                    ->orWhere('city', 'like', '%'.$request->search.'%')
-                    ->orWhere('country', 'like', '%'.$request->search.'%')
-                    ->orWhere('status', 'like', '%'.$request->search.'%')
-                    ->orWhere('notes', 'like', '%'.$request->search.'%')
-                    ->orWhere('website', 'like', '%'.$request->search.'%')
-                    ->orWhere('postal_code', 'like', '%'.$request->search.'%')
-                    ->orWhere('address', 'like', '%'.$request->search.'%')
-                    ->orWhere('first_name', 'like', '%'.$request->search.'%')
-                    ->orWhere('last_name', 'like', '%'.$request->search.'%')
-                    ->orWhereHas('metas', function($query) use ($request){
-                        $query->where('value', 'like', '%'.$request->search.'%');
-                    });
+            $contacts->where(function($q) use ($request){
+                $q->where('email', 'like', '%'.$request->search.'%')
+                    ->orWhere('country', 'like', '%'.$request->search.'%');
+            });
         }
         if($request->sort){
             $contacts->orderBy($request->sort, $request->order);

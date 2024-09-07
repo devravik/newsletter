@@ -20,6 +20,7 @@ class CampaignMail extends Model
         'reply_to',
         'status',
         'sent_at',
+        'scheduled_at',
         'opened_at',
         'unsubscribed_at',
         'is_bounced',

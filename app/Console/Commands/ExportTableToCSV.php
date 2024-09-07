@@ -65,7 +65,20 @@ class ExportTableToCSV extends Command
         DB::reconnect('custom_mysql');
 
         // Convert columns to an array
-        $columnsArray = explode(',', $columns);
+        // $columnsArray = explode(',', $columns);
+        $columnsArray = [
+            'first_name',
+            'last_name',
+            'email',
+            'phone',
+            'city',
+            'country',
+            'suburb',
+            'postal_code',
+            'address',
+            'source',
+        ];
+        $emails = [];
 
         try {
             // Open the file for writing
@@ -76,11 +89,27 @@ class ExportTableToCSV extends Command
 
             // Process the table in chunks
             DB::connection('custom_mysql')->table($tableName)
-                ->select($columnsArray)
+                // ->select($columnsArray)
                 ->orderBy('id') // Ensure predictable order
-                ->chunk($chunkSize, function ($rows) use ($file) {
+                ->chunk($chunkSize, function ($rows) use ($file, &$emails) {
                     foreach ($rows as $row) {
-                        fputcsv($file, (array) $row);
+                        if(in_array($row->email, $emails) || empty($row->email)){
+                            continue;
+                        }
+                        $data = [
+                            'first_name' => $row->first_name ?? null,
+                            'last_name' => $row->last_name ?? null,
+                            'email' => $row->email ?? null,
+                            'phone' => $row->contact_number ?? null,
+                            'city' => $row->city ?? null,
+                            'country' => 'New Zealand',
+                            'suburb' => $row->suburb ?? null,
+                            'postal_code' => $row->postal_code ?? null,                            
+                            'address' => implode(', ',[$row->street_address , $row->city , $row->suburb , $row->postal_code , $row->country]),
+                            'source' => 'Vetty',
+                        ];
+                        fputcsv($file, $data);
+                        $emails[] = $row->email;                        
                     }
                 });
 

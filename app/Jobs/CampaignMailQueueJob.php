@@ -55,5 +55,18 @@ class CampaignMailQueueJob implements ShouldQueue
         // Update sent_at timestamp
         $campaignMail->sent_at = now();
         $campaignMail->save();
+
+        // Update campaign status
+        $this->updateCampaignStatus($campaign);
+    }
+
+    function updateCampaignStatus($campaign) {
+        // get unsent campaign mails count
+        $unsentCampaignMailsCount = CampaignMail::where('campaign_id', $campaign->id)->where('sent_at', null)->count();
+        if($unsentCampaignMailsCount == 0) {
+            // update campaign status to sent
+            $campaign->status = 'sent';
+            $campaign->save();
+        }        
     }
 }
