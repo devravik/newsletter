@@ -510,7 +510,7 @@
                                                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;" class="full-width-mobile">
                                                     <tbody>
                                                         <tr>
-                                                            <td style="width:60px;" class="full-width-mobile">
+                                                            <td style="width:60px;" class="">
 
                                                                 <a href="https://shopify.pxf.io/q41JeY" target="_blank" style="color: #0000EE;">
 
@@ -570,7 +570,7 @@
                                                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;" class="full-width-mobile">
                                                     <tbody>
                                                         <tr>
-                                                            <td style="width:60px;" class="full-width-mobile">
+                                                            <td style="width:60px;" class="">
 
                                                                 <a href="https://shopify.pxf.io/q41JeY" target="_blank" style="color: #0000EE;">
 
@@ -630,7 +630,7 @@
                                                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;" class="full-width-mobile">
                                                     <tbody>
                                                         <tr>
-                                                            <td style="width:60px;" class="full-width-mobile">
+                                                            <td style="width:60px;" class="">
 
                                                                 <a href="https://shopify.pxf.io/q41JeY" target="_blank" style="color: #0000EE;">
 
