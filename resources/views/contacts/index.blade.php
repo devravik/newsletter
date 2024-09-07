@@ -34,7 +34,7 @@
 
                         {{-- Submit Button --}}
                         <div class="flex items-end">
-                            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Search</button>
+                            <button type="submit" class="px-4 py-2 bg-blue-500 text-black dark:text-white  rounded-md hover:bg-blue-600">Search</button>
                             <button type="button" id="clear-filters" class="ml-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">Clear</button>
                         </div>
                     </div>
@@ -86,13 +86,13 @@
                             <td class="px-4 py-2">
                                 <div class="flex space-x-2">
                                     {{-- Edit Button --}}
-                                    <a href="{{ route('contacts.edit', $contact->id) }}" class="px-2 py-1 bg-green-500 text-white rounded">Edit</a>
+                                    <a href="{{ route('contacts.edit', $contact->id) }}" class="px-2 py-1 bg-green-500 text-black dark:text-white  rounded">Edit</a>
 
                                     {{-- Delete Form --}}
                                     <form action="{{ route('contacts.destroy', $contact->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this contact?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="px-2 py-1 bg-red-500 text-white rounded">Delete</button>
+                                        <button type="submit" class="px-2 py-1 bg-red-500 text-black dark:text-white  rounded">Delete</button>
                                     </form>
                                 </div>
                             </td>
