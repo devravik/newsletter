@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Campaign;
 use App\Models\CampaignMail;
+use App\Models\Unsubscribe;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
@@ -31,8 +32,18 @@ class CampaignMailQueueJob implements ShouldQueue
     public function handle(): void
     {
         $campaignMail = $this->campaignMail;
-        // Send email to contact
         $contact = $campaignMail->contact;
+
+        // add check if contact is unsubscribed
+        $unsubscribed = Unsubscribe::where('email', $contact->email)->count();
+        if($unsubscribed) {
+            $campaignMail->status = 'unsubscribed';
+            $campaignMail->save();
+            return;
+        }
+
+
+        // Send email to contact
         $campaign = $campaignMail->campaign;
         $email = $contact->email;
         $subject = $campaignMail->subject;
