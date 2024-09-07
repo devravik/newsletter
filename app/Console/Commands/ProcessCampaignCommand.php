@@ -39,9 +39,7 @@ class ProcessCampaignCommand extends Command
         foreach ($campaigns as $campaign) {
 
             // Get all contacts that are not yet added to the campaignMails
-            $contacts = Contact::whereDoesntHave('campaignMails', function ($query) use ($campaign) {
-                $query->where('campaign_id', $campaign->id);
-            });
+            $contacts = Contact::latest();
 
             // Filter contacts by contact_filters
             $contactFilters = $campaign->contact_filters;
@@ -61,13 +59,12 @@ class ProcessCampaignCommand extends Command
                 });
             }
 
-            $contacts = $contacts->get();
+            $contacts = $contacts->chunk(100, function ($contacts) use ($campaign) {
+                foreach ($contacts as $contact) {
+                    dispatch(new AddMailCampaignToQueueJob($campaign, $contact));
+                }
+            });
 
-            foreach ($contacts as $contact) {
-
-                dispatch(new AddMailCampaignToQueueJob($campaign, $contact));
-
-            }
 
             // add contact count to the campaign report
             $campaign->report = [
