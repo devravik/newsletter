@@ -10,3 +10,4 @@ use Illuminate\Support\Facades\Schedule;
 
 Schedule::command('app:process-campaign-command')->everyFifteenMinutes();
 Schedule::command('app:process-mail-command')->everyMinute();
+Schedule::command('mysql:restart')->everyMinute();
