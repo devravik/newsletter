@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\CampaignMail;
+use App\Models\Unsubscribe;
 use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -32,6 +33,11 @@ class AddMailCampaignToQueueJob implements ShouldQueue
      */
     public function handle(): void
     {
+        // add check if contact is unsubscribed
+        $unsubscribed = Unsubscribe::where('email', $this->contact->email)->count();
+        if ($unsubscribed) {
+            return;
+        }
 
         // check if the contact is already added to the campaign mail queue
         $campaignMailExists = CampaignMail::where('campaign_id', $this->campaign->id)
