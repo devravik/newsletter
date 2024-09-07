@@ -31,6 +31,16 @@
             <main>
                 {{ $slot }}
             </main>
+
+            <footer>
+                <div class="bg-white dark:bg-gray-800 shadow">
+                    <div class="mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        <div class="text-center text-xs text-gray-600 dark:text-gray-400">
+                            &copy; {{ date('Y-m-d H:i:s') }} {{ config('app.name') }}. All rights reserved.
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
     </body>
 </html>
