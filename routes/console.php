@@ -8,5 +8,5 @@ use Illuminate\Support\Facades\Schedule;
 //     $this->comment(Inspiring::quote());
 // })->purpose('Display an inspiring quote')->hourly();
 
-Schedule::command('app:process-campaign-command')->everyMinute();
+Schedule::command('app:process-campaign-command')->everyFifteenMinutes();
 Schedule::command('app:process-mail-command')->everyMinute();
