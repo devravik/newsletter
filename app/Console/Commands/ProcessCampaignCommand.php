@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\AddMailCampaignToQueueJob;
 use App\Models\Campaign;
 use App\Models\CampaignMail;
 use App\Models\Contact;
@@ -63,19 +64,9 @@ class ProcessCampaignCommand extends Command
             $contacts = $contacts->get();
 
             foreach ($contacts as $contact) {
-                // Add the contact to the campaign mail queue
-                $campaignMail = new CampaignMail();
-                $campaignMail->campaign_id = $campaign->id;
-                $campaignMail->contact_id = $contact->id;
-                $campaignMail->email = $contact->email;
-                $campaignMail->subject = $campaign->subject;
-                $campaignMail->from_name = $campaign->from_name;
-                $campaignMail->from_email = $campaign->from_email;
-                $campaignMail->template = $campaign->template;
-                $campaignMail->reply_to = $campaign->reply_to;
-                $campaignMail->scheduled_at = $this->getNextScheduledDate();
-                $campaignMail->status = 'pending';
-                $campaignMail->save();
+
+                dispatch(new AddMailCampaignToQueueJob($campaign, $contact));
+
             }
 
             // add contact count to the campaign report
@@ -89,16 +80,5 @@ class ProcessCampaignCommand extends Command
             $campaign->save();
         }
     }
-
-    function getNextScheduledDate()
-    {
-        $limitPerDay = env('EMAILS_PER_DAY', 30);
-        $lastCampaignMail = CampaignMail::latest()->first();
-        if (!$lastCampaignMail) {
-            return now();
-        }
-        $lastScheduledAt = $lastCampaignMail->scheduled_at ?? now();
-        $nextScheduledAt = Carbon::parse($lastScheduledAt)->addMinutes(24 * 60 / $limitPerDay);
-        return $nextScheduledAt;
-    }
+   
 }
