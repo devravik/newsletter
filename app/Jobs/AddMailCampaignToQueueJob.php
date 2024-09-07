@@ -60,13 +60,28 @@ class AddMailCampaignToQueueJob implements ShouldQueue
 
     function getNextScheduledDate()
     {
+        // Maximum number of emails that can be sent per day
         $limitPerDay = env('EMAILS_PER_DAY', 30);
+
+        // Get the latest scheduled email
         $lastCampaignMail = CampaignMail::latest()->first();
+
+        // If no previous email exists, schedule immediately
         if (!$lastCampaignMail) {
             return now();
         }
+
+        // The last scheduled date/time
         $lastScheduledAt = $lastCampaignMail->scheduled_at ?? now();
-        $nextScheduledAt = Carbon::parse($lastScheduledAt)->addMinutes(24 * 60 / $limitPerDay);
+
+        // Calculate the interval between emails (in minutes)
+        // 24 hours * 60 minutes divided by the limit (emails per day)
+        $intervalInMinutes = (24 * 60) / $limitPerDay;
+
+        // Calculate the next scheduled time by adding the interval
+        $nextScheduledAt = Carbon::parse($lastScheduledAt)->addMinutes($intervalInMinutes);
+
+        // Return the calculated next scheduled time
         return $nextScheduledAt;
     }
 
