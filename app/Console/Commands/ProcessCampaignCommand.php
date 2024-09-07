@@ -58,9 +58,10 @@ class ProcessCampaignCommand extends Command
                     }
                 });
             }
-
-            $contacts = $contacts->chunk(100, function ($contacts) use ($campaign) {
+            $count = 0;
+            $contacts = $contacts->chunk(100, function ($contacts) use ($campaign, &$count) {
                 foreach ($contacts as $contact) {
+                    $count++;
                     dispatch(new AddMailCampaignToQueueJob($campaign, $contact));
                 }
             });
@@ -68,7 +69,7 @@ class ProcessCampaignCommand extends Command
 
             // add contact count to the campaign report
             $campaign->report = [
-                'contact_count' => $contacts->count(),
+                'contact_count' => $count,
             ];
 
             // Update the campaign status to 'processing'
