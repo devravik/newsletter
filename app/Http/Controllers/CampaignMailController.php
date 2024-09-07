@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class CampaignMailController extends Controller
 {
     public function index(Request $request){
-        $mails = CampaignMail::orderBy('subject', 'asc');
+        $mails = CampaignMail::latest();
         if($request->has('search')){
             $mails->where('subject', 'like', '%'.$request->search.'%')
                     ->orWhere('from_name', 'like', '%'.$request->search.'%')

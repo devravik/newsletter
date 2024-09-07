@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\File;
 class CampaignController extends Controller
 {
     public function index(Request $request){
-        $campaigns = Campaign::orderBy('name', 'asc');
+        $campaigns = Campaign::latest();
         if($request->has('search')){
             $campaigns->where('name', 'like', '%'.$request->search.'%')
                     ->orWhere('subject', 'like', '%'.$request->search.'%')
