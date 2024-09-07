@@ -507,7 +507,7 @@
                                         <tr>
                                             <td align="center" style="font-size:0px;padding:0px 0px 0px 0px;word-break:break-word;">
 
-                                                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;" class="full-width-mobile">
+                                                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;" class="">
                                                     <tbody>
                                                         <tr>
                                                             <td style="width:60px;" class="">
@@ -567,7 +567,7 @@
                                         <tr>
                                             <td align="center" style="font-size:0px;padding:0px 0px 0px 0px;word-break:break-word;">
 
-                                                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;" class="full-width-mobile">
+                                                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;" class="">
                                                     <tbody>
                                                         <tr>
                                                             <td style="width:60px;" class="">
@@ -627,7 +627,7 @@
                                         <tr>
                                             <td align="center" style="font-size:0px;padding:0px 0px 0px 0px;word-break:break-word;">
 
-                                                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;" class="full-width-mobile">
+                                                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;" class="">
                                                     <tbody>
                                                         <tr>
                                                             <td style="width:60px;" class="">
