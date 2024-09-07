@@ -31,6 +31,16 @@ class AddMailCampaignToQueueJob implements ShouldQueue
      */
     public function handle(): void
     {
+
+        // check if the contact is already added to the campaign mail queue
+        $campaignMailExists = CampaignMail::where('campaign_id', $this->campaign->id)
+            ->where('contact_id', $this->contact->id)
+            ->count();
+
+        if ($campaignMailExists) {
+            return;
+        }
+
         // Add the contact to the campaign mail queue
         $campaign = $this->campaign;
         $contact = $this->contact;
@@ -59,4 +69,6 @@ class AddMailCampaignToQueueJob implements ShouldQueue
         $nextScheduledAt = Carbon::parse($lastScheduledAt)->addMinutes(24 * 60 / $limitPerDay);
         return $nextScheduledAt;
     }
+
+    
 }
