@@ -50,15 +50,10 @@
                             <th>Subject</th>
                             <th>From Name</th>
                             <th>From Email</th>
-                            <th>Reply To</th>
                             <th>Status</th>
                             <th>Sent At</th>
                             <th>Template</th>
-                            <th>Content</th>
                             <th>Contact Filters</th>
-                            <th>Meta</th>
-                            <th>Options</th>
-                            <th>Settings</th>
                             <th>Report</th>
                             <th>Actions</th>
                         </tr>
@@ -70,35 +65,12 @@
                             <td>{{ $campaign->subject }}</td>
                             <td>{{ $campaign->from_name }}</td>
                             <td>{{ $campaign->from_email }}</td>
-                            <td>{{ $campaign->reply_to }}</td>
                             <td>{{ $campaign->status }}</td>
                             <td>{{ $campaign->sent_at }}</td>
                             <td>{{ $campaign->template }}</td>
-                            <td>{{ $campaign->content }}</td>
                             <td>
                                 @if ($campaign->contact_filters)
                                 @foreach ($campaign->contact_filters as $key => $value)
-                                <div>{{ $key }}: {{ $value }}</div>
-                                @endforeach
-                                @endif
-                            </td>
-                            <td>
-                                @if ($campaign->meta)
-                                @foreach ($campaign->meta as $key => $value)
-                                <div>{{ $key }}: {{ $value }}</div>
-                                @endforeach
-                                @endif
-                            </td>
-                            <td>
-                                @if ($campaign->options)
-                                @foreach ($campaign->options as $key => $value)
-                                <div>{{ $key }}: {{ $value }}</div>
-                                @endforeach
-                                @endif
-                            </td>
-                            <td>
-                                @if ($campaign->settings)
-                                @foreach ($campaign->settings as $key => $value)
                                 <div>{{ $key }}: {{ $value }}</div>
                                 @endforeach
                                 @endif
