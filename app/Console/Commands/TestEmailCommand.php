@@ -75,7 +75,7 @@ class TestEmailCommand extends Command
         $campaignMail->template = $campaign->template;
         $campaignMail->reply_to = $campaign->reply_to;
         $campaignMail->scheduled_at = now();
-        $campaignMail->status = 'pending';
+        $campaignMail->status = 'sent';
         $campaignMail->save();
 
         
