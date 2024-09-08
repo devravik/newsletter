@@ -9,6 +9,6 @@ use Illuminate\Support\Facades\Schedule;
 // })->purpose('Display an inspiring quote')->hourly();
 
 // Schedule::command('mysql:restart')->everyMinute();
-Schedule::command('app:process-campaign-command')->everyFifteenMinutes();
-Schedule::command('app:process-mail-command')->everyMinute();
+// Schedule::command('app:process-campaign-command')->everyFifteenMinutes();
+// Schedule::command('app:process-mail-command')->everyMinute();
 Schedule::command('app:clean-contact-emails-command')->everyTenMinutes();
