@@ -67,8 +67,8 @@ class UnsubscribeController extends Controller
                     'is_bounced' => true
                 ]);
             }
+            logger('Unsubscribed email: ' . $email);
         }
-        logger('Unsubscribed email: ' . $email);
         return response()->json(['message' => 'Email added to unsubscribe list']);
         
     }
