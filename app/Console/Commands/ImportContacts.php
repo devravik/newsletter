@@ -112,36 +112,126 @@ class ImportContacts extends Command
         // Trim any whitespace characters from the email
         $email = trim($email);
 
-        // List of blacklisted words
-        $blacklisted_words = ['planolitix', 'gighq', 'waggingtail', 'skillsnacks', 'vetty', 'sellcodes', 'inisev', 'fonefix'];
+        // List of blacklisted words (case-insensitive)
+        $blacklisted_words = ['planolitix', 'gighq', 'waggingtail', 'skillsnacks', 'vetty', 'sellcodes', 'inisev', 'fonefix', 'newstly'];
 
-        // List of blacklisted domains
-        $blacklisted_domains = ['sample.com', 'example.com'];
+        // Merged list of blacklisted and disposable domains
+        $blacklisted_domains = [
+            'sample.com',
+            'example.com',
+            'mailinator.com',
+            '10minutemail.com',
+            'yopmail.com',
+            'guerrillamail.com',
+            'dispostable.com',
+            'tempmail.com',
+            'throwawaymail.com',
+            'getnada.com',
+            'sharklasers.com',
+            'spambog.com',
+            'trashmail.com',
+            'mytrashmail.com',
+            'fakeinbox.com',
+            'maildrop.cc',
+            'mintemail.com',
+            'trbvm.com',
+            'emailondeck.com',
+            'yopmail.net',
+            'mailcatch.com',
+            'mailnesia.com',
+            'spamex.com',
+            'boun.cr',
+            'discard.email',
+            'temporary-mail.net',
+            'mail-temporaire.fr',
+            'tmail.com',
+            'jetable.org',
+            'zoemail.org',
+            'fakemailgenerator.com'
+        ];
 
-        // Check if the email matches the valid email regex and does not contain the "+" character
+        // Expanded list of role-based email prefixes
+        $role_based_prefixes = [
+            'admin',
+            'administrator',
+            'info',
+            'support',
+            'contact',
+            'webmaster',
+            'sales',
+            'marketing',
+            'postmaster',
+            'billing',
+            'helpdesk',
+            'noreply',
+            'no-reply',
+            'abuse',
+            'team',
+            'privacy',
+            'security',
+            'complaints',
+            'hr',
+            'jobs',
+            'recruit',
+            'legal',
+            'service',
+            'services',
+            'root',
+            'sysadmin',
+            'feedback',
+            'customerservice',
+            'operations',
+            'office',
+            'registrar',
+            'hostmaster',
+            'mis',
+            'network',
+            'hostmaster',
+            'adminstrator',
+            'it',
+            'master',
+            'host',
+            'root',
+            'emailadmin',
+            'enquiries'
+        ];
+
+        // Step 1: Check if the email matches the valid regex and does not contain the "+" character
         if (preg_match($valid_email_regex, $email) && strpos($email, '+') === false) {
-            // Additional check for suspicious characters in the email prefix
+            // Extract local part (prefix) and domain part of the email
             $prefix = substr($email, 0, strpos($email, '@'));
+            $domain = substr(strrchr($email, '@'), 1);
+
+            // Step 2: Check for suspicious characters in the email prefix
             if (!preg_match('/^[-_#]/', $prefix)) {
-                // Check if any blacklisted word is present in the email (case-insensitive)
+
+                // Step 3: Check if the email contains any blacklisted word
                 foreach ($blacklisted_words as $word) {
                     if (stripos($email, $word) !== false) {
-                        return false; // Invalid if blacklisted word is found
+                        return false; // Invalid if blacklisted word found
                     }
                 }
 
-                // Extract the domain part from the email
-                $domain = substr(strrchr($email, "@"), 1);
-
-                // Check if the domain is in the blacklist
+                // Step 4: Check if the domain is in the blacklist (including disposable domains)
                 if (in_array(strtolower($domain), $blacklisted_domains)) {
-                    return false; // Invalid if domain is blacklisted
+                    return false; // Invalid if domain is blacklisted or disposable
                 }
 
-                return true;
+                // Step 5: Check if the prefix is role-based
+                if (in_array(strtolower($prefix), $role_based_prefixes)) {
+                    return false; // Invalid if role-based email address
+                }
+
+                // Step 6: Check if the domain has valid MX records (this ensures the domain can receive emails)
+                if (!checkdnsrr($domain, 'MX')) {
+                    return false; // Invalid if no valid MX records are found
+                }
+
+                return true; // Email passed all checks
             }
         }
 
-        return false;
+        return false; // Email didn't pass validation
     }
+
 }
