@@ -37,6 +37,10 @@ class TestEmailCommand extends Command
         $fromName = 'Happendesk';
         $fromEmail = 'noreply@happendesk.com';
         $replyTo = 'noreply@happendesk.com';
+        
+        $fromName = 'Happendesk';
+        $fromEmail = 'ravikrishnangupta@zohomail.in';
+        $replyTo = 'noreply@happendesk.com';
 
         // if ses enabled
         if(config('mail.default') == 'ses') {

@@ -8,6 +8,6 @@ use Illuminate\Support\Facades\Schedule;
 //     $this->comment(Inspiring::quote());
 // })->purpose('Display an inspiring quote')->hourly();
 
-Schedule::command('mysql:restart')->everyMinute();
+// Schedule::command('mysql:restart')->everyMinute();
 Schedule::command('app:process-campaign-command')->everyFifteenMinutes();
 Schedule::command('app:process-mail-command')->everyMinute();
