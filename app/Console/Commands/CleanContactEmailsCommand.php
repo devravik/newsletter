@@ -26,7 +26,7 @@ class CleanContactEmailsCommand extends Command
      */
     public function handle()
     {
-        Contact::oldest()->chunk(1000, function ($contacts) {
+        Contact::where('status',0)->oldest()->chunk(1000, function ($contacts) {
             foreach ($contacts as $contact) {
                 $delete = false;
                 if (empty($contact->email)) {
@@ -39,6 +39,9 @@ class CleanContactEmailsCommand extends Command
                     $contact->delete();
                     $this->error("Deleted contact with invalid email: $contact->email");
                 }
+
+                $contact->status = 1;
+                $contact->save();
 
                 // $this->info("Processed contact with email: $contact->email");
 
