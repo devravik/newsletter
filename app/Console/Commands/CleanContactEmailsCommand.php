@@ -91,7 +91,8 @@ class CleanContactEmailsCommand extends Command
             'tmail.com',
             'jetable.org',
             'zoemail.org',
-            'fakemailgenerator.com'
+            'fakemailgenerator.com',
+            'onet.pl'
         ];
 
         // Expanded list of role-based email prefixes
