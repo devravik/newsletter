@@ -128,16 +128,50 @@ class CleanContactEmailsCommand extends Command
             'hostmaster',
             'mis',
             'network',
-            'hostmaster',
             'adminstrator',
             'it',
-            'master',
-            'host',
-            'root',
             'emailadmin',
             'enquiries',
             'kontakt'
         ];
+
+        // List of trusted domains to skip MX check (e.g. known providers)
+        $trusted_domains = [
+            'gmail.com',
+            'yahoo.com',
+            'outlook.com',
+            'hotmail.com',
+            'aol.com',
+            'icloud.com',
+            'protonmail.com',
+            'gmx.com',
+            'mail.com',
+            'zoho.com',
+            'yandex.com',
+            'fastmail.com',
+            'me.com',
+            'live.com',
+            'msn.com',
+            'rocketmail.com',
+            'mac.com',
+            'qq.com',
+            '163.com',
+            '126.com',
+            'sina.com',
+            'rediffmail.com',
+            'btinternet.com',
+            'comcast.net',
+            'verizon.net',
+            'att.net',
+            't-online.de',
+            'web.de',
+            'mail.ru',
+            'inbox.com',
+            'libero.it',
+            'orange.fr',
+            'wanadoo.fr'
+        ];
+
 
         // Step 1: Check if the email matches the valid regex and does not contain the "+" character
         if (preg_match($valid_email_regex, $email) && strpos($email, '+') === false) {
@@ -165,9 +199,12 @@ class CleanContactEmailsCommand extends Command
                     return false; // Invalid if role-based email address
                 }
 
-                // Step 6: Check if the domain has valid MX records (this ensures the domain can receive emails)
-                if (!checkdnsrr($domain, 'MX')) {
-                    return false; // Invalid if no valid MX records are found
+                // Step 6: Skip MX check for trusted domains
+                if (!in_array(strtolower($domain), $trusted_domains)) {
+                    // Step 7: Check if the domain has valid MX records (this ensures the domain can receive emails)
+                    if (!checkdnsrr($domain, 'MX')) {
+                        return false; // Invalid if no valid MX records are found
+                    }
                 }
 
                 return true; // Email passed all checks
@@ -176,5 +213,6 @@ class CleanContactEmailsCommand extends Command
 
         return false; // Email didn't pass validation
     }
+
 
 }
