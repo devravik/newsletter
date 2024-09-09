@@ -34,6 +34,12 @@ class CampaignMailQueueJob implements ShouldQueue
         $campaignMail = $this->campaignMail;
         $contact = $campaignMail->contact;
 
+        if(!$contact) {
+            $campaignMail->status = 'removed';
+            $campaignMail->save();
+            return;
+        }
+
         // add check if contact is unsubscribed
         $unsubscribed = Unsubscribe::where('email', $contact->email)->count();
         if($unsubscribed) {
