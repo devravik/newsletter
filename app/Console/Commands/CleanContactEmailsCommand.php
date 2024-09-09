@@ -26,7 +26,7 @@ class CleanContactEmailsCommand extends Command
      */
     public function handle()
     {
-        Contact::where('status',0)->oldest()->chunk(1000, function ($contacts) {
+        Contact::whereNull('status')->oldest()->chunk(1000, function ($contacts) {
             foreach ($contacts as $contact) {
                 $delete = false;
                 if (empty($contact->email)) {
