@@ -221,6 +221,42 @@ class CampaignMailQueueJob implements ShouldQueue
             'wanadoo.fr'
         ];
 
+        // List of known spam traps (emails or patterns)
+        $spam_trap_emails = [
+            'trap@example.com',
+            'spamtrap@mailinator.com',
+            'nospam@example.com',
+            'abuse@example.com',
+            'test@spamtrap.com',
+            'blackhole@example.com',
+            'null@example.com',
+            'bounce@spamtrap.com',
+            'spamtrap@spamcop.net',
+            'trapme@spamtrap.com',
+            'report@spamhaus.org'
+        ];
+
+        // List of known spam trap domains
+        $spam_trap_domains = [
+            'spamtrapdomain.com',
+            'trap.com',
+            'spamtrap.com',
+            'example.net',
+            'testmail.com',
+            'antispam.com',
+            'spamcop.net',
+            'spamhaus.org',
+            'bounceme.com',
+            'blackhole.com',
+            'spambounce.com',
+            'dnsbl.com',
+            'bademail.com',
+            'trapmail.com',
+            'honeypot.com',
+            'bouncer.mail.com'
+        ];
+
+
 
         // Step 1: Check if the email matches the valid regex and does not contain the "+" character
         if (preg_match($valid_email_regex, $email) && strpos($email, '+') === false) {
@@ -246,6 +282,11 @@ class CampaignMailQueueJob implements ShouldQueue
                 // Step 5: Check if the prefix is role-based
                 if (in_array(strtolower($prefix), $role_based_prefixes)) {
                     return false; // Invalid if role-based email address
+                }
+
+                // Step 5: Check if the email or domain is a known spam trap
+                if (in_array(strtolower($email), $spam_trap_emails) || in_array(strtolower($domain), $spam_trap_domains)) {
+                    return false; // Invalid if email or domain matches known spam traps
                 }
 
                 // Step 6: Skip MX check for trusted domains
