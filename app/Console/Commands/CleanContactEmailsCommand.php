@@ -40,8 +40,7 @@ class CleanContactEmailsCommand extends Command
                     $this->error("Deleted contact with invalid email: $contact->email");
                 }
 
-                $contact->status = 1;
-                $contact->save();
+                $contact->update(['status' => 1]);
 
                 // $this->info("Processed contact with email: $contact->email");
 
