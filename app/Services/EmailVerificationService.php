@@ -47,6 +47,47 @@ class EmailVerificationService
             return false;
         }
 
+        // List of trusted domains to skip MX check (e.g. known providers)
+        $trusted_domains = [
+            'gmail.com',
+            'yahoo.com',
+            'outlook.com',
+            'hotmail.com',
+            'aol.com',
+            'icloud.com',
+            'protonmail.com',
+            'gmx.com',
+            'mail.com',
+            'zoho.com',
+            'yandex.com',
+            'fastmail.com',
+            'me.com',
+            'live.com',
+            'msn.com',
+            'rocketmail.com',
+            'mac.com',
+            'qq.com',
+            '163.com',
+            '126.com',
+            'sina.com',
+            'rediffmail.com',
+            'btinternet.com',
+            'comcast.net',
+            'verizon.net',
+            'att.net',
+            't-online.de',
+            'web.de',
+            'mail.ru',
+            'inbox.com',
+            'libero.it',
+            'orange.fr',
+            'wanadoo.fr'
+        ];
+
+        if (in_array(strtolower($domain), $trusted_domains)) {
+            return true;
+        }
+
         $mxRecords = [];
         if (getmxrr($domain, $mxRecords)) {
             foreach ($mxRecords as $mxHost) {
