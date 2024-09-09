@@ -42,11 +42,12 @@ class VerifyEmailCommand extends Command
                     $delete = true;
                 }
                 if ($delete) {
-                    $this->error("Deleted contact with invalid email: $contact->email");
-                    $contact->delete();
+                    $this->error("invalid email: $contact->email");
+                    $contact->update(['status' => 3]);
+                } else {
+                    $contact->update(['status' => 2]);
                 }
                 $this->info("Processed contact with email: $contact->email");
-                $contact->update(['status' => 2]);
             }
         });
     }
