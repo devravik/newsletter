@@ -17,7 +17,7 @@ class EmailVerificationService
         if(!$this->is_valid_email($email)) {
             return false;
         }
-        
+
         // Check the cache first
         $cacheKey = 'email_verification_' . md5($email);
         if (Cache::has($cacheKey)) {
@@ -53,8 +53,8 @@ class EmailVerificationService
                 $connection = @fsockopen($mxHost, 25, $errno, $errstr, 5);
 
                 if ($connection) {
-                    fwrite($connection, "HELO example.com\r\n");
-                    fwrite($connection, "MAIL FROM:<test@example.com>\r\n");
+                    fwrite($connection, "HELO happendesk.com\r\n");
+                    fwrite($connection, "MAIL FROM:<owner@happendesk.com>\r\n");
                     fwrite($connection, "RCPT TO:<$email>\r\n");
                     $response = fgets($connection);
 
