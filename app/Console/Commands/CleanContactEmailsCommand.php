@@ -97,9 +97,6 @@ class CleanContactEmailsCommand extends Command
 
         // Expanded list of role-based email prefixes
         $role_based_prefixes = [
-            'admin',
-            'administrator',
-            'info',
             'support',
             'contact',
             'webmaster',
