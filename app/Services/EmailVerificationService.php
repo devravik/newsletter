@@ -107,7 +107,6 @@ class EmailVerificationService
                     fclose($connection);
                 }
 
-                sleep(1); // Respect rate limits
             }
         }
 
