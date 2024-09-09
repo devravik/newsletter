@@ -138,7 +138,8 @@ class CleanContactEmailsCommand extends Command
             'host',
             'root',
             'emailadmin',
-            'enquiries'
+            'enquiries',
+            'kontakt'
         ];
 
         // Step 1: Check if the email matches the valid regex and does not contain the "+" character
