@@ -9,7 +9,7 @@ class EmailVerificationService
     protected $cacheTime = 60; // Cache time in minutes
 
 
-    public function evaluateEmailEngagement($email)
+    function evaluateEmailEngagement($email)
     {
         // Check if the email is valid
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -27,7 +27,6 @@ class EmailVerificationService
             '/^[0-9]{1,4}$/', // Too short and numeric (e.g., "1234")
             '/^[0-9]{5,}$/',  // Long numeric (e.g., "123456789")
             '/^[a-z0-9]+$/i', // Plain letters or numbers without dots or symbols (e.g., "user123")
-            '/^[a-z0-9._%+-]+$/i', // Randomized emails often used for sign-ups
         ];
 
         // Check if the local part matches common patterns of low-engagement emails
@@ -43,7 +42,7 @@ class EmailVerificationService
             $engagementScore += 2; // Bonus for meaningful words (e.g., first or last names)
         }
 
-        // Check if the local part contains suspiciously random strings
+        // Check if the local part has more than 3 digits in a row
         if (preg_match('/[0-9]{3,}/', $localPart)) {
             $engagementScore -= 1; // Reduce score if there are too many digits
         }
@@ -54,8 +53,8 @@ class EmailVerificationService
         }
 
         // Check if the local part has a professional structure (e.g., name.surname)
-        if (preg_match('/^[a-zA-Z]+\.[a-zA-Z]+$/', $localPart)) {
-            $engagementScore += 1; // Bonus for structured/professional local parts
+        if (preg_match('/^[a-zA-Z]+(\.[a-zA-Z]+)+$/', $localPart)) {
+            $engagementScore += 2; // Bonus for structured/professional local parts like name.surname
         }
 
         // Ensure the score is within the valid range (0 to 5)
@@ -63,6 +62,7 @@ class EmailVerificationService
 
         return $engagementScore;
     }
+
 
 
     /**
