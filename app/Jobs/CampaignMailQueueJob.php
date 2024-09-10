@@ -58,7 +58,7 @@ class CampaignMailQueueJob implements ShouldQueue
         }
 
         // check if eng_score < 3
-        if($contact->eng_score < 3.5) {
+        if($contact->eng_score < 3) {
             $campaignMail->status = 'low_engagement';
             $campaignMail->save();
             return;

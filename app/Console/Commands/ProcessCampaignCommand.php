@@ -64,7 +64,7 @@ class ProcessCampaignCommand extends Command
             });
 
             // check eng_score > 3
-            $contacts = $contacts->where('eng_score', '>', 3);
+            $contacts = $contacts->where('eng_score', '>', 2.5);
 
             $count = 0;
             $contacts = $contacts->chunk(100, function ($contacts) use ($campaign, &$count) {
