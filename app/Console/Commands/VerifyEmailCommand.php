@@ -35,7 +35,7 @@ class VerifyEmailCommand extends Command
      */
     public function handle()
     {
-        Contact::oldest()->chunk(1000, function ($contacts) {
+        Contact::whereNull('eng_score')->oldest()->chunk(1000, function ($contacts) {
             foreach ($contacts as $contact) {
                 $engScore = $this->emailVerificationService->evaluateEmailEngagement($contact->email);
                 $contact->update(['eng_score' => $engScore]);

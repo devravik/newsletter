@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('contacts', function (Blueprint $table) {
-            $table->tinyInteger('eng_score')->default(5)->after('email');
+            $table->tinyInteger('eng_score')->nullable()->after('email');
         });
     }
 
