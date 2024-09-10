@@ -132,7 +132,8 @@ class CleanContactEmailsCommand extends Command
             'it',
             'emailadmin',
             'enquiries',
-            'kontakt'
+            'kontakt',
+            'archive',
         ];
 
         // List of trusted domains to skip MX check (e.g. known providers)

@@ -44,7 +44,7 @@ class ProcessCampaignCommand extends Command
             // Filter contacts by contact_filters
             $contactFilters = $campaign->contact_filters;
             if (!empty($contactFilters)) {
-                $contacts = $contacts->where(function ($query) use ($contactFilters) {
+                $contacts = $contacts->latest()->where(function ($query) use ($contactFilters) {
                     foreach ($contactFilters as $key => $value) {
                         // Check if the value is meta. If so, filter by meta data
                         if (strpos($key, 'meta.') === 0) {
