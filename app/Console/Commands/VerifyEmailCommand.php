@@ -39,7 +39,7 @@ class VerifyEmailCommand extends Command
             foreach ($contacts as $contact) {
                 $engScore = $this->emailVerificationService->evaluateEmailEngagement($contact->email);
                 $contact->update(['eng_score' => $engScore]);
-                $this->info("Updated contact with email: $contact->email with engagement score: $engScore");
+                // $this->info("Updated contact with email: $contact->email with engagement score: $engScore");
             }
         });
     }
