@@ -58,6 +58,11 @@ class ProcessCampaignCommand extends Command
                     }
                 });
             }
+
+            $contacts = $contacts->wehereNotHas('campaignMails', function ($query) use ($campaign) {
+                $query->where('campaign_id', $campaign->id);
+            });
+
             $count = 0;
             $contacts = $contacts->chunk(100, function ($contacts) use ($campaign, &$count) {
                 foreach ($contacts as $contact) {
