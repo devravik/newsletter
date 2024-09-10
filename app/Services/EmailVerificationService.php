@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use Illuminate\Support\Facades\Cache;
@@ -7,6 +8,63 @@ class EmailVerificationService
 {
     protected $cacheTime = 60; // Cache time in minutes
 
+
+    public function evaluateEmailEngagement($email)
+    {
+        // Check if the email is valid
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return 0; // Invalid email
+        }
+
+        // Extract the local part of the email
+        $localPart = substr($email, 0, strpos($email, '@'));
+
+        // Engagement levels
+        $engagementScore = 5;
+
+        // List of common throwaway patterns
+        $commonPatterns = [
+            '/^[0-9]{1,4}$/', // Too short and numeric (e.g., "1234")
+            '/^[0-9]{5,}$/',  // Long numeric (e.g., "123456789")
+            '/^[a-z0-9]+$/i', // Plain letters or numbers without dots or symbols (e.g., "user123")
+            '/^[a-z0-9._%+-]+$/i', // Randomized emails often used for sign-ups
+        ];
+
+        // Check if the local part matches common patterns of low-engagement emails
+        foreach ($commonPatterns as $pattern) {
+            if (preg_match($pattern, $localPart)) {
+                $engagementScore -= 3; // Reduce score for generic/randomized patterns
+                break;
+            }
+        }
+
+        // Detect if the local part contains meaningful names or words
+        if (preg_match('/[a-zA-Z]{3,}/', $localPart)) {
+            $engagementScore += 2; // Bonus for meaningful words (e.g., first or last names)
+        }
+
+        // Check if the local part contains suspiciously random strings
+        if (preg_match('/[0-9]{3,}/', $localPart)) {
+            $engagementScore -= 1; // Reduce score if there are too many digits
+        }
+
+        // Check if it looks like a temporary or disposable email address
+        if (preg_match('/^test|temp|dummy|fake|throwaway/i', $localPart)) {
+            return 0; // These are clear throwaway emails, return lowest engagement
+        }
+
+        // Check if the local part has a professional structure (e.g., name.surname)
+        if (preg_match('/^[a-zA-Z]+\.[a-zA-Z]+$/', $localPart)) {
+            $engagementScore += 1; // Bonus for structured/professional local parts
+        }
+
+        // Ensure the score is within the valid range (0 to 5)
+        $engagementScore = max(0, min(5, $engagementScore));
+
+        return $engagementScore;
+    }
+
+
     /**
      * Verify if the given email address is valid via SMTP.
      * @param string $email
@@ -14,7 +72,7 @@ class EmailVerificationService
      */
     public function verifyEmail($email)
     {
-        if(!$this->is_valid_email($email)) {
+        if (!$this->is_valid_email($email)) {
             return false;
         }
 
@@ -39,7 +97,7 @@ class EmailVerificationService
      */
     protected function verifyEmailSmtp($email)
     {
-        
+
         $domain = substr(strrchr($email, '@'), 1);
         $hostname = gethostbyname($domain);
 
@@ -106,7 +164,6 @@ class EmailVerificationService
 
                     fclose($connection);
                 }
-
             }
         }
 

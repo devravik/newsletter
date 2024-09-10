@@ -35,19 +35,11 @@ class VerifyEmailCommand extends Command
      */
     public function handle()
     {
-        Contact::where(['status'=>1])->oldest()->chunk(1000, function ($contacts) {
+        Contact::oldest()->chunk(1000, function ($contacts) {
             foreach ($contacts as $contact) {
-                $delete = false;
-                if(!$this->emailVerificationService->verifyEmail($contact->email)) {
-                    $delete = true;
-                }
-                if ($delete) {
-                    $this->error("invalid email: $contact->email");
-                    $contact->update(['status' => 3]);
-                } else {
-                    $this->info("Processed contact with email: $contact->email");
-                    $contact->update(['status' => 2]);
-                }
+                $engScore = $this->emailVerificationService->evaluateEmailEngagement($contact->email);
+                $contact->update(['eng_score' => $engScore]);
+                $this->info("Updated contact with email: $contact->email with engagement score: $engScore");
             }
         });
     }

@@ -26,7 +26,8 @@ class Contact extends Model
         'website',
         'notes',
         'source',
-        'status',                
+        'status',
+        'eng_score'           
     ];
 
     function getFullNameAttribute() : string {
