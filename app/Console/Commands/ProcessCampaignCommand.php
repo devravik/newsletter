@@ -59,7 +59,7 @@ class ProcessCampaignCommand extends Command
                 });
             }
 
-            $contacts = $contacts->wehereNotHas('campaignMails', function ($query) use ($campaign) {
+            $contacts = $contacts->whereNotHas('campaignMails', function ($query) use ($campaign) {
                 $query->where('campaign_id', $campaign->id);
             });
 
