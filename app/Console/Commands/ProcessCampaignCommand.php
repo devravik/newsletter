@@ -59,6 +59,7 @@ class ProcessCampaignCommand extends Command
                 });
             }
 
+            // check if the contact has not been added to the campaign mails
             $contacts = $contacts->whereNotHave('campaignMails', function ($query) use ($campaign) {
                 $query->where('campaign_id', $campaign->id);
             });
