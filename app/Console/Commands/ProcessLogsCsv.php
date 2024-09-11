@@ -45,7 +45,7 @@ class ImportContacts extends Command
 
             $this->info('cleaning contacts...'. $totalRecords);
 
-            $unsubscribedEventTypes = ['Bounced', 'WaitingToRetry', 'Suppressed', 'Complaint'];
+            $unsubscribedEventTypes = ['Bounced', 'WaitingToRetry', 'Suppressed', 'Complaint', 'AbuseReport', 'Unsubscribed', 'Rejected'];
 
             foreach ($records as $record) {
                 try {
