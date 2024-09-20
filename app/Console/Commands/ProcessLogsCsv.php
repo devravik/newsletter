@@ -46,11 +46,13 @@ class ImportContacts extends Command
             $this->info('cleaning contacts...'. $totalRecords);
 
             $unsubscribedEventTypes = ['Bounced', 'WaitingToRetry', 'Suppressed', 'Complaint', 'AbuseReport', 'Unsubscribed', 'Rejected'];
+            $unsubscribedMessageTypes = ['NoMailbox', 'GreyListed', 'ManualCancel', 'Spam', 'AccountProblem', 'BlackListed', 'ConnectionTerminated', 'DNSProblem'];
 
+       
             foreach ($records as $record) {
                 try {
                     $this->info('Processing record: ' . $record['to'].' - '.$record['eventtype']);
-                    if (in_array($record['eventtype'], $unsubscribedEventTypes)) {
+                    if (in_array($record['eventtype'], $unsubscribedEventTypes) || in_array($record['messagecategory'], $unsubscribedMessageTypes)) {
                         Unsubscribe::create([
                             'email' => $record['to'],
                         ]);
